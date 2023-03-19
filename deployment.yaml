@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grvdemo-flask-prometheus
+  labels:
+    app: grvdemo-flask-prometheus
+  namespace: pythonapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grvdemo-flask-prometheus
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: grvdemo-flask-prometheus
+    spec:
+      containers:
+      - image: 975688738801.dkr.ecr.us-west-2.amazonaws.com/grvdemo:latest
+        imagePullPolicy: Always
+        name: grvdemo-flask-prometheus
+        ports:
+        - containerPort: 5000
+          protocol: TCP
